@@ -1,1 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerador de Servidores</title>
 
+<style>
+body{
+font-family: Arial, sans-serif;
+background:#0f172a;
+color:white;
+padding:20px;
+}
+
+.container{
+max-width:420px;
+margin:auto;
+}
+
+h2{
+text-align:center;
+}
+
+input{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:none;
+border-radius:8px;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:12px;
+border:none;
+border-radius:8px;
+background:#22c55e;
+color:white;
+font-size:16px;
+}
+
+.server{
+background:#1e293b;
+padding:10px;
+margin-top:10px;
+border-radius:8px;
+font-size:14px;
+word-break:break-all;
+}
+
+.copy{
+background:#3b82f6;
+margin-top:6px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Gerador MultiServidor</h2>
+
+<input id="user" placeholder="Usuário">
+<input id="pass" placeholder="Senha">
+
+<button onclick="gerar()">Gerar Links</button>
+
+<div id="resultado"></div>
+
+</div>
+
+<script>
+
+const servidores = [
+{nome:"Seven", url:"http://seven.blcplay.com"},
+{nome:"Galaxy", url:"http://wv.ntxv8s.site"},
+{nome:"Sky", url:"http://meuscanais.pro"},
+{nome:"Solar", url:"http://solar.playblc.work"},
+{nome:"Arena", url:"http://alproxy.xyz"},
+{nome:"Explosion", url:"http://explosion.blcplay5.work"},
+{nome:"Fire", url:"http://fire.npremium.fun"},
+{nome:"Lunar", url:"http://lunar.blcplay3.work"},
+{nome:"Speed", url:"http://speed.blcplay2.work"},
+{nome:"Urano", url:"http://urano.playblc.work"},
+{nome:"Andromeda", url:"http://andromeda.playblc.work"},
+{nome:"Venus", url:"http://venus.playblc.work"},
+{nome:"Tita", url:"http://tita.netpl4y.com"},
+{nome:"Olympus", url:"http://olympus.netpl4y.com"}
+];
+
+function gerar(){
+
+let user = document.getElementById("user").value;
+let pass = document.getElementById("pass").value;
+
+let html = "";
+
+servidores.forEach((s,i)=>{
+
+let link = `${s.url}/get.php?username=${user}&password=${pass}&type=m3u_plus&output=mpegts`;
+
+html += `
+<div class="server">
+<b>${s.nome}</b><br>
+<span id="link${i}">${link}</span>
+<button class="copy" onclick="copiar('link${i}')">Copiar</button>
+</div>
+`;
+
+});
+
+document.getElementById("resultado").innerHTML = html;
+
+}
+
+function copiar(id){
+
+let texto = document.getElementById(id).innerText;
+
+navigator.clipboard.writeText(texto);
+
+alert("Link copiado!");
+
+}
+
+</script>
+
+</body>
+</html>
