@@ -24,7 +24,6 @@ h2{
 margin-bottom:15px;
 }
 
-/* INPUTS MENORES */
 input{
 width:85%;
 padding:10px;
@@ -68,9 +67,9 @@ margin-top:6px;
 background:#22c55e;
 }
 
-.status{
-margin-top:5px;
-font-size:12px;
+.testar{
+background:#f59e0b;
+margin-top:6px;
 }
 </style>
 </head>
@@ -125,11 +124,11 @@ let div = document.createElement("div");
 div.className = "server";
 
 div.innerHTML = `
-<b>${s.nome}</b>
-<div id="status${i}" class="status">🟡 Testando...</div>
+<b>${s.nome}</b><br>
 <span id="link${i}">${link}</span>
 <br>
 <button id="btn${i}" class="copy">Copiar</button>
+<button class="testar" onclick="testar('${s.url}')">Testar Servidor</button>
 `;
 
 resultado.appendChild(div);
@@ -141,45 +140,13 @@ this.classList.add("copiado");
 this.innerText = "Copiado";
 });
 
-// verificar status
-verificarStatus(s.url, i);
-
 });
 
 }
 
-// ✅ TESTE COM IFRAME
-function verificarStatus(url, i){
-
-let el = document.getElementById(`status${i}`);
-
-let iframe = document.createElement("iframe");
-iframe.style.display = "none";
-
-let timeout = setTimeout(()=>{
-el.innerText = "🔴 Offline";
-el.style.color = "red";
-iframe.remove();
-}, 5000);
-
-iframe.onload = function(){
-clearTimeout(timeout);
-el.innerText = "🟢 Online";
-el.style.color = "lightgreen";
-iframe.remove();
-};
-
-iframe.onerror = function(){
-clearTimeout(timeout);
-el.innerText = "🔴 Offline";
-el.style.color = "red";
-iframe.remove();
-};
-
-iframe.src = url;
-
-document.body.appendChild(iframe);
-
+// abrir servidor
+function testar(url){
+window.open(url, "_blank");
 }
 
 </script>
