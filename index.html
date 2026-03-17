@@ -67,9 +67,20 @@ margin-top:6px;
 background:#22c55e;
 }
 
+/* BOTÃO DISCRETO */
 .testar{
-background:#f59e0b;
-margin-top:6px;
+background:none;
+border:none;
+color:#94a3b8;
+font-size:12px;
+margin-left:8px;
+cursor:pointer;
+padding:0;
+}
+
+.testar:hover{
+color:#38bdf8;
+text-decoration:underline;
 }
 </style>
 </head>
@@ -128,7 +139,7 @@ div.innerHTML = `
 <span id="link${i}">${link}</span>
 <br>
 <button id="btn${i}" class="copy">Copiar</button>
-<button class="testar" onclick="testar('${s.url}')">Testar Servidor</button>
+<button class="testar" onclick="testar('${s.url}')">testar</button>
 `;
 
 resultado.appendChild(div);
