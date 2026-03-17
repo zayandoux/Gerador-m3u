@@ -3,24 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gerador de Servidores</title>
+<title>Gerador M3U</title>
 
 <style>
 body{
 font-family: Arial, sans-serif;
 background:#0f172a;
 color:white;
-padding:20px;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
 margin:0;
+padding:20px;
 }
 
 .container{
-width:100%;
 max-width:400px;
+margin:auto;
 text-align:center;
 }
 
@@ -29,19 +25,16 @@ margin-bottom:20px;
 }
 
 input{
-width:90%;
+width:100%;
 padding:12px;
 margin-top:10px;
 border:none;
 border-radius:8px;
 font-size:16px;
-display:block;
-margin-left:auto;
-margin-right:auto;
 }
 
 button{
-width:90%;
+width:100%;
 padding:12px;
 margin-top:12px;
 border:none;
@@ -112,41 +105,39 @@ function gerar(){
 let user = document.getElementById("user").value;
 let pass = document.getElementById("pass").value;
 
-let html = "";
+let resultado = document.getElementById("resultado");
+
+// NÃO limpa tudo, só substitui os servidores
+resultado.innerHTML = "";
 
 servidores.forEach((s,i)=>{
 
 let link = `${s.url}/get.php?username=${user}&password=${pass}&type=m3u_plus&output=mpegts`;
 
-html += `
-<div class="server">
+let div = document.createElement("div");
+div.className = "server";
+
+div.innerHTML = `
 <b>${s.nome}</b><br>
 <span id="link${i}">${link}</span>
-<button id="btn${i}" class="copy" onclick="copiar('link${i}','btn${i}')">Copiar</button>
-</div>
+<br>
+<button id="btn${i}" class="copy">Copiar</button>
 `;
+
+resultado.appendChild(div);
+
+// evento separado (melhor controle)
+document.getElementById(`btn${i}`).addEventListener("click", function(){
+
+navigator.clipboard.writeText(link);
+
+// fica verde e PERMANECE
+this.classList.add("copiado");
+this.innerText = "Copiado";
 
 });
 
-document.getElementById("resultado").innerHTML = html;
-
-}
-
-function copiar(id, btnId){
-
-let texto = document.getElementById(id).innerText;
-
-navigator.clipboard.writeText(texto);
-
-let btn = document.getElementById(btnId);
-
-btn.classList.add("copiado");
-btn.innerText = "Copiado!";
-
-setTimeout(()=>{
-btn.classList.remove("copiado");
-btn.innerText = "Copiar";
-},2000);
+});
 
 }
 
