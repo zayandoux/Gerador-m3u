@@ -20,11 +20,7 @@ margin:auto;
 text-align:center;
 }
 
-h2{
-margin-bottom:20px;
-}
-
-input{
+input, button{
 width:100%;
 padding:12px;
 margin-top:10px;
@@ -34,14 +30,8 @@ font-size:16px;
 }
 
 button{
-width:100%;
-padding:12px;
-margin-top:12px;
-border:none;
-border-radius:8px;
 background:#22c55e;
 color:white;
-font-size:16px;
 cursor:pointer;
 }
 
@@ -62,6 +52,11 @@ margin-top:6px;
 
 .copy.copiado{
 background:#22c55e;
+}
+
+.status{
+margin-top:5px;
+font-size:13px;
 }
 </style>
 </head>
@@ -106,8 +101,6 @@ let user = document.getElementById("user").value;
 let pass = document.getElementById("pass").value;
 
 let resultado = document.getElementById("resultado");
-
-// NÃO limpa tudo, só substitui os servidores
 resultado.innerHTML = "";
 
 servidores.forEach((s,i)=>{
@@ -118,7 +111,8 @@ let div = document.createElement("div");
 div.className = "server";
 
 div.innerHTML = `
-<b>${s.nome}</b><br>
+<b>${s.nome}</b>
+<div id="status${i}" class="status">🟡 Testando...</div>
 <span id="link${i}">${link}</span>
 <br>
 <button id="btn${i}" class="copy">Copiar</button>
@@ -126,17 +120,33 @@ div.innerHTML = `
 
 resultado.appendChild(div);
 
-// evento separado (melhor controle)
+// copiar
 document.getElementById(`btn${i}`).addEventListener("click", function(){
-
 navigator.clipboard.writeText(link);
-
-// fica verde e PERMANECE
 this.classList.add("copiado");
 this.innerText = "Copiado";
+});
+
+// verificar status
+verificarStatus(s.url, i);
 
 });
 
+}
+
+// MÉTODO 2
+function verificarStatus(url, i){
+
+fetch(url, {method: "HEAD", mode: "no-cors"})
+.then(() => {
+let el = document.getElementById(`status${i}`);
+el.innerText = "🟢 Online";
+el.style.color = "lightgreen";
+})
+.catch(() => {
+let el = document.getElementById(`status${i}`);
+el.innerText = "🔴 Offline";
+el.style.color = "red";
 });
 
 }
