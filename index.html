@@ -61,13 +61,15 @@ text-align:left;
 .actions{
 display:flex;
 align-items:center;
-gap:8px;
+gap:6px;
 margin-top:6px;
 }
 
 .copy{
 flex:1;
 background:#3b82f6;
+font-size:12px;
+padding:8px;
 }
 
 .copy.copiado{
@@ -150,15 +152,24 @@ div.innerHTML = `
 <span id="link${i}">${link}</span>
 
 <div class="actions">
-<button id="btn${i}" class="copy">Copiar</button>
+<button id="m3u${i}" class="copy">Copiar M3U</button>
+<button id="dns${i}" class="copy">Copiar DNS</button>
 <button class="testar" onclick="testar('${s.url}')">↗</button>
 </div>
 `;
 
 resultado.appendChild(div);
 
-document.getElementById(`btn${i}`).addEventListener("click", function(){
+// Copiar M3U
+document.getElementById(`m3u${i}`).addEventListener("click", function(){
 navigator.clipboard.writeText(link);
+this.classList.add("copiado");
+this.innerText = "Copiado";
+});
+
+// Copiar DNS
+document.getElementById(`dns${i}`).addEventListener("click", function(){
+navigator.clipboard.writeText(s.url);
 this.classList.add("copiado");
 this.innerText = "Copiado";
 });
