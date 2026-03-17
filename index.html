@@ -120,34 +120,46 @@ div.innerHTML = `
 
 resultado.appendChild(div);
 
-// copiar
+// copiar (fica verde permanente e continua copiando)
 document.getElementById(`btn${i}`).addEventListener("click", function(){
 navigator.clipboard.writeText(link);
 this.classList.add("copiado");
 this.innerText = "Copiado";
 });
 
-// verificar status
+// verificar status com IMG
 verificarStatus(s.url, i);
 
 });
 
 }
 
-// MÉTODO 2
 function verificarStatus(url, i){
 
-fetch(url, {method: "HEAD", mode: "no-cors"})
-.then(() => {
 let el = document.getElementById(`status${i}`);
+
+let img = new Image();
+
+img.onload = function(){
 el.innerText = "🟢 Online";
 el.style.color = "lightgreen";
-})
-.catch(() => {
-let el = document.getElementById(`status${i}`);
+};
+
+img.onerror = function(){
 el.innerText = "🔴 Offline";
 el.style.color = "red";
-});
+};
+
+// evita cache
+img.src = url + "/favicon.ico?rand=" + Math.random();
+
+// timeout (se demorar muito)
+setTimeout(()=>{
+if(el.innerText === "🟡 Testando..."){
+el.innerText = "🔴 Offline";
+el.style.color = "red";
+}
+}, 5000);
 
 }
 
